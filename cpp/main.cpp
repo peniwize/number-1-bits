@@ -118,14 +118,11 @@ public:
         4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8
     };
     int hammingWeight(uint32_t n) {
-        int result;
-
-        for (auto i = sizeof(n); i; --i) {
-            result += toBitCount_[n & 0xff];
-            n >>= 8;
-        }
-        
-        return result;
+        // Unrolled loop since loop count would always be 4.
+        return toBitCount_[(n >> 0) & 0xff]
+               + toBitCount_[(n >> 8) & 0xff]
+               + toBitCount_[(n >> 16) & 0xff]
+               + toBitCount_[(n >> 24) & 0xff];
     }
 };
 
